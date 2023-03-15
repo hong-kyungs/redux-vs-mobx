@@ -16,28 +16,29 @@ const initialState = {
 	followers: [],
 };
 
-const firstMiddleware = (store) => (dispatch) => (action) => {
-	console.log('액션 로깅', action); // 기본기능 실행되기전 기능추가
-	dispatch(action); // 기본기능
-	console.log('액션 끝'); //기본기능 실행된 후 기능추가
-};
-
 //3단 고차함수 구조
 // function firstMiddleware (store) {
-// 	return function (dispatch) {
+// 	return function (next) {
 // 		return function (action) {
 // 		}
 // 	}
 // }
+const firstMiddleware = (store) => (next) => (action) => {
+	console.log('로깅', action); // 기본기능 실행되기전 기능추가
+	next(action); // 기본기능
+};
 
-const enhancer = applyMiddleware(firstMiddleware);
+const thunkMiddelware = (store) => (next) => (action) => {
+	if (typeof action === 'function') {
+		// 비동기
+		return action(store.dispatch, store.getState); // store.disptch 와 store.getState 2개 인수를 가진 action함수 호출 -> thunk가 함수로 온 action을 실행시켜준다
+	}
+	return next(action); //동기
+};
+
+const enhancer = applyMiddleware(firstMiddleware, thunkMiddelware);
 
 const store = createStore(reducer, initialState, enhancer);
-//화면은 어떻게 바꿔주는가? 사실 쓸 필요없이 화면은 알아서 바뀐다.
-store.subscribe(() => {
-	// subscribe가 react-rudex안에 들어있다.
-	console.log('changed'); // 화면 바꿔주는 코드 여기서..
-});
 
 console.log('1st', store.getState());
 
@@ -52,23 +53,23 @@ store.dispatch(
 );
 console.log('2nd', store.getState());
 
-store.dispatch(
-	addPost({
-		userId: 1,
-		id: 1,
-		content: '안녕하세요. 리덕스입니다.',
-	})
-);
-console.log('3rd', store.getState());
+// store.dispatch(
+// 	addPost({
+// 		userId: 1,
+// 		id: 1,
+// 		content: '안녕하세요. 리덕스입니다.',
+// 	})
+// );
+// console.log('3rd', store.getState());
 
-store.dispatch(
-	addPost({
-		userId: 1,
-		id: 1,
-		content: '리덕스 두번째 게시물입니다.',
-	})
-);
-console.log('4th', store.getState());
+// store.dispatch(
+// 	addPost({
+// 		userId: 1,
+// 		id: 1,
+// 		content: '리덕스 두번째 게시물입니다.',
+// 	})
+// );
+// console.log('4th', store.getState());
 
-store.dispatch(logOut());
-console.log('5th', store.getState());
+// store.dispatch(logOut());
+// console.log('5th', store.getState());
