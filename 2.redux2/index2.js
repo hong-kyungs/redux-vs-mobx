@@ -1,4 +1,4 @@
-const { createStore } = require('redux');
+const { createStore, applyMiddleware } = require('redux');
 const reducer = require('./reducers');
 const { logIn, logOut } = require('./actions/user');
 const addPost = require('./actions/post');
@@ -16,7 +16,23 @@ const initialState = {
 	followers: [],
 };
 
-const store = createStore(reducer, initialState);
+const firstMiddleware = (store) => (dispatch) => (action) => {
+	console.log('액션 로깅', action); // 기본기능 실행되기전 기능추가
+	dispatch(action); // 기본기능
+	console.log('액션 끝'); //기본기능 실행된 후 기능추가
+};
+
+//3단 고차함수 구조
+// function firstMiddleware (store) {
+// 	return function (dispatch) {
+// 		return function (action) {
+// 		}
+// 	}
+// }
+
+const enhancer = applyMiddleware(firstMiddleware);
+
+const store = createStore(reducer, initialState, enhancer);
 //화면은 어떻게 바꿔주는가? 사실 쓸 필요없이 화면은 알아서 바뀐다.
 store.subscribe(() => {
 	// subscribe가 react-rudex안에 들어있다.
