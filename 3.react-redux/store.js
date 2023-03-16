@@ -1,5 +1,6 @@
 const { createStore, applyMiddleware } = require('redux');
 const reducer = require('./reducers');
+const { composeWithDevTools } = require('redux-devtools-extension');
 // const { logIn, logOut } = require('./actions/user');
 // const addPost = require('./actions/post');
 
@@ -24,7 +25,13 @@ const thunkMiddelware = (store) => (next) => (action) => {
 	return next(action); //동기
 };
 
-const enhancer = applyMiddleware(firstMiddleware, thunkMiddelware);
+const enhancer =
+	//배포환경에서 devtools를 사용하고 싶지 않다면?
+	process.env.NODE_ENV === 'production'
+		? //production, 실서비스용이면 compose를 사용하고
+		  compose(applyMiddleware(firstMiddleware, thunkMiddelware))
+		: //개발환경일때는 composeWithDevTools를 사용
+		  composeWithDevTools(applyMiddleware(firstMiddleware, thunkMiddelware));
 
 const store = createStore(reducer, initialState, enhancer);
 
