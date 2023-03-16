@@ -1,8 +1,6 @@
 const { createStore, applyMiddleware } = require('redux');
 const reducer = require('./reducers');
 const { composeWithDevTools } = require('redux-devtools-extension');
-// const { logIn, logOut } = require('./actions/user');
-// const addPost = require('./actions/post');
 
 const initialState = {
 	user: {
