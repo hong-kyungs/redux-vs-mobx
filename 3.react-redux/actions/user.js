@@ -4,6 +4,7 @@ const logIn = (data) => {
 		// async action
 		dispatch(logInRequest(data));
 		try {
+			//setTimeout을 나중에는 axios.post().then().catch()로 대체
 			// 성공하면
 			setTimeout(() => {
 				dispatch(
@@ -19,7 +20,6 @@ const logIn = (data) => {
 		}
 	};
 };
-
 //보통 request, success, failure 3가지를 세트로 구성함.
 const logInRequest = (data) => {
 	return {

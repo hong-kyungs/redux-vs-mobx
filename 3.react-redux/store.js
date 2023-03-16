@@ -5,7 +5,7 @@ const reducer = require('./reducers');
 
 const initialState = {
 	user: {
-		isLogginIn: false, // inLogginIn은 로그인창 돌아가는 기능같은 것들
+		isLoggingIn: false, // inLoggingIn은 로그인창 돌아가는 기능같은 것들
 		data: null,
 	},
 	posts: [],
