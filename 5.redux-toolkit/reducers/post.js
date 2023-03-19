@@ -1,3 +1,5 @@
+const { createSlice } = require('@reduxjs/toolkit');
+
 const initialState = [];
 
 const postReducer = (prevState = initialState, action) => {
@@ -10,4 +12,11 @@ const postReducer = (prevState = initialState, action) => {
 	}
 };
 
-module.exports = postReducer;
+const postSlice = createSlice({
+	name: 'post',
+	initialState,
+	reducers: {},
+	extraReducers: {},
+});
+
+module.exports = postSlice;

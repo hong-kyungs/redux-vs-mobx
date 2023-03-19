@@ -1,3 +1,5 @@
+const { createSlice } = require('@reduxjs/toolkit');
+
 const initialState = {
 	isLoggingIn: false,
 	data: null,
@@ -34,4 +36,18 @@ const userReducer = (prevState = initialState, action) => {
 	}
 };
 
-module.exports = userReducer;
+const userSlice = createSlice({
+	name: 'user',
+	initialState,
+	reducers: {
+		//동기적, 내부적
+		logOut(state, action) {
+			state.data = null;
+		},
+	},
+	extraReducers: {
+		//비동기적, 외부적
+	},
+});
+
+module.exports = userSlice;

@@ -42,11 +42,4 @@ const logInFailure = (error) => {
 	};
 };
 
-const logOut = () => {
-	return {
-		//action
-		type: 'LOG_OUT',
-	};
-};
-
-module.exports = { logIn, logOut };
+module.exports = { logIn };
