@@ -1,4 +1,5 @@
 const { createSlice } = require('@reduxjs/toolkit');
+const { logIn } = require('../actions/user');
 
 const initialState = {
 	isLoggingIn: false,
@@ -47,6 +48,21 @@ const userSlice = createSlice({
 	},
 	extraReducers: {
 		//비동기적, 외부적
+		[logIn.pending](state, action) {
+			//logIn을 actions에서 받아와서 action이름이 user/logIn/pending
+			state.isLoggingIn = true;
+		},
+		[logIn.fulfilled](state, action) {
+			//action에 있는 data = action.payload
+			//action이름이 user/logIn/fulfilled
+			draft.data = action.payload;
+			draft.isLoggingIn = false;
+		},
+		[logIn.rejected](state, action) {
+			//action이름이 user/logIn/rejected
+			draft.data = null;
+			draft.isLoggingIn = false;
+		},
 	},
 });
 

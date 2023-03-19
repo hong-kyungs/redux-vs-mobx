@@ -1,3 +1,23 @@
+const { createAsyncThunk } = require('@reduxjs/toolkit');
+
+//서버에서 받아오는 것처럼 delay라는 함수를 만들어줌
+const delay = (time, value) =>
+	new Promise((resolve, reject) => {
+		setTimeout(() => {
+			resolve(value);
+		}, time);
+	});
+
+//createAsyncThunk(액션이름, () => {});
+const logIn = createAsyncThunk('user/logIn', async (data, thunkAPI) => {
+	console.log(data);
+	const result = await delay(500, {
+		userId: 11,
+		nickname: 'zerocho',
+	});
+	return result;
+});
+
 const logIn = (data) => {
 	// async action creator(비동기 액션)
 	return (dispatch, getState) => {
