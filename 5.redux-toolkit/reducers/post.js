@@ -15,7 +15,9 @@ const postSlice = createSlice({
 	},
 	extraReducers: {
 		[addPost.pending](state, action) {},
-		[addPost.fulfilled](state, action) {},
+		[addPost.fulfilled](state, action) {
+			state.data.push(action.payload);
+		},
 		[addPost.rejected](state, action) {},
 	},
 });

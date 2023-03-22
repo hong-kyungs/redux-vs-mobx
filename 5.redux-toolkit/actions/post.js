@@ -15,4 +15,4 @@ const addPost = createAsyncThunk('post/add', async () => {
 	});
 });
 
-module.exports = addPost;
+module.exports = { addPost };
