@@ -13,13 +13,13 @@ const postSlice = createSlice({
 			state.data = [];
 		},
 	},
-	extraReducers: {
-		[addPost.pending](state, action) {},
-		[addPost.fulfilled](state, action) {
-			state.data.push(action.payload);
-		},
-		[addPost.rejected](state, action) {},
-	},
+	extraReducers: (builder) =>
+		builder
+			.addCase(addPost.pending, (state, action) => {})
+			.addCase(addPost.fulfilled, (state, action) => {
+				state.data.push(action.payload);
+			})
+			.addCase(addPost.rejected, (state, action) => {}),
 });
 
 module.exports = postSlice;
