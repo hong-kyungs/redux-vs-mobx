@@ -4,6 +4,8 @@ const { logIn } = require('../actions/user');
 const initialState = {
 	isLoggingIn: false,
 	data: null,
+	email: '',
+	password: '',
 };
 
 const userSlice = createSlice({
@@ -13,6 +15,12 @@ const userSlice = createSlice({
 		//동기적, 내부적
 		logOut(state, action) {
 			state.data = null;
+		},
+		setEmail(state, action) {
+			state.email = action.payload;
+		},
+		setPassword(state, action) {
+			state.password = action.payload;
 		},
 	},
 	extraReducers: {

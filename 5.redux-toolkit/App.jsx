@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { addPost } from './actions/post';
@@ -7,8 +7,10 @@ import  userSlice from './reducers/user';
 
 const App = () =>{
   const user = useSelector((state) => state.user); //state는 store의 initialState라고 생각하면 된다
-  const post = useSelector((state) => state.post); 
   const dispatch = useDispatch();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   
   const onClick = useCallback(() => {
@@ -25,6 +27,23 @@ const App = () =>{
   const onAddPost = useCallback(() => {
     dispatch(addPost());
   }, [])
+
+  const onChangeEmail = useCallback((e) => {
+    setEmail(e.target.value)
+  }, [])
+  
+  const onChanagePassword = useCallback((e) => {
+    setPassword(e.target.value)
+  }, [])
+
+  //
+  const onSubmit = useCallback((e) => {
+    e.preventDefault();
+    dispatch(userSlice.actions.setLoginFrom({
+      email,
+      password,
+    }))
+  }, [dispatch, email, password])
   
 
   return(
@@ -39,6 +58,12 @@ const App = () =>{
       {!user.data && <button onClick={onClick}>로그인</button>}
       {user.data && <button onClick={onLogout}>로그아웃</button>}
       <button onClick={onAddPost}>게시글 작성</button>
+
+      {/* form예제처럼 input에서는 redux를 사용하지 않고 input에 state를 썼다가 한번에 모아서 form에서 redux로 내보내는 것이 좋다.*/}
+      <form onSubmit={onSubmit}>
+        <input type="email" value={email} onChange={onChangeEmail}/>
+        <input type="password" value={password} onChange={onChanagePassword}/>
+      </form>
     </div>
   )
 };
