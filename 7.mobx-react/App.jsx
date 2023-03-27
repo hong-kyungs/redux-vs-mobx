@@ -1,17 +1,30 @@
 import React, { Component } from 'react';
 import { observable } from 'mobx';
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
 import { userStore, postStore} from './store';
 
 @observer
 class App extends Component {
-  onLogIn = () => {};
+  //global store를 쓰지않고 컴포넌트안에서만 state를 쓰고싶다면,
+  state = observable({
+    name: '',
+    password: '',
+  }) 
 
-  onLogOut = () => {};
+  onLogIn = () => {
+    userStore.logIn({
+      nickname: '제로초',
+      password: '비밀번호',
+    });
+  };
+
+  onLogOut = () => {
+    userStore.logOut();
+  };
 
 
   onChangeName = (e) => {
-    this.state.name = e.tartget.value;
+    this.state.name = e.target.value;
   }
 
   onChangePassword = (e) => {
@@ -27,9 +40,9 @@ class App extends Component {
           ? <div>{userStore.data.nickname}</div>
           : '로그인 해주세요.'}
         {!userStore.data 
-        ? <button onClick={this.onClick}>로그인</button>
-        : <button onClick={this.onLogout}>로그아웃</button>
-        }d
+        ? <button onClick={this.onLogIn}>로그인</button>
+        : <button onClick={this.onLogOut}>로그아웃</button>
+        }
         <div>{postStore.data.length}</div>
         <div>
           <input value={this.state.name} onChange={this.onChangeName}/>
