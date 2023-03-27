@@ -1,9 +1,12 @@
 import React, { useCallback } from 'react';
 import { useLocalStore, useObserver } from 'mobx-react';
-import { userStore, postStore} from './store';
-
+// import { userStore, postStore} from './store';
+import useStore from './useStore';
 
 const App = () => {
+  //context API로 묶어줄 떄
+  const { userStore, postStore } = useStore();
+
   const state = useLocalStore(() => ({
     name: '',
     password: '',
